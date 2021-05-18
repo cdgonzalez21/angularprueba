@@ -1,0 +1,47 @@
+$font-stack:normal normal bold 20px/24px Roboto
+$primary-color: #fff
+
+body
+  font: 100% $font-stack
+  color: $primary-color
+
+.title
+    background-color:#01CEB6
+    color: $primary-color
+
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap'
+
+.btn-rounded 
+    border-radius: 10em !important
+    border: 2px solid $primary-color!important
+    color: $primary-color !important
+.focus-text
+    box-shadow: 0 1px 0 0 $primary-color !important
+    border-bottom: 1px solid $primary-color !important
+
+.label-text
+    color:$primary-color!important
+
+.form-control-text    
+    display: block
+    width: 100%
+    padding: 0.375rem 0.75rem
+    font-size: 1rem
+    line-height: 1.5
+    color: $primary-color
+    background-color: $primary-color
+    background-clip: padding-box
+
+.form-check
+    padding: 6%
+    text-align: center
+
+.form-logo
+    padding: 2%
+    text-align: center
+
+.text-title
+    margin-left: 1em
+    font-size: 24px!important
+    font-weight: bold

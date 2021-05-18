@@ -1,0 +1,170 @@
+<div class="form-logo">
+  Logo
+</div>
+<div class=" title">
+   <div class="container">
+     <form #f="ngForm" (ngSubmit)="onSubmit(f)" >
+  <div class="row">
+    <div class="col-sm-12">
+      <label for="form1" class="text-title"><mdb-icon fas icon="plus"></mdb-icon> Nueva Tarea</label>
+  </div>
+    <div class="col-sm-4">
+      <div class="md-form">
+        <input mdbInput type="text" hidden class="form-control-text focus-text" name="id" ngModel required #first="ngModel">
+        <input mdbInput type="text" id="form1" class="form-control-text focus-text" name="title" ngModel required #first="ngModel">
+        <label for="form1" class="label-text">Ingrese titulo</label>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="form-check">
+          <mdb-checkbox name="state" ngModel required #first="ngModel" [checked]="true"> Tarea completada</mdb-checkbox>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="md-form">
+        <button mdbBtn type="submit" class="btn-rounded" rounded="true" outline="true" mdbWavesEffect > Guardar Tarea</button>
+      </div>
+    </div>
+  </div>
+</form>
+</div>
+</div>
+<br>
+<div class="container">
+<!-- Editable table -->
+<div class="card">
+ <div class="row">
+  <div class="col-md-8">
+    <div class="md-form">
+      <div>
+         <label for="form1" class="text-title"><mdb-icon fas icon="list-ol"></mdb-icon> Lista de tareas</label>
+        </div>
+  </div>
+  </div>
+    <div class="col-md-4">
+      <form class="form-inline md-form mr-auto mb-4">
+        <input class="form-control mr-sm-2" input mdbInput type="text" id="form1"name="searchText"  [(ngModel)]="searchText" (blur)="searchItems()">
+        <label for="search">Buscar</label>
+        <button mdbBtn size="sm" color="success" outline="true" rounded="true" class="my-0 waves-light"
+          mdbWavesEffect type="button" >  <mdb-icon fas icon="search" aria-hidden="true"></mdb-icon></button>
+      </form>
+    </div>
+  </div>
+  <div class="card-body">
+    <div id="table" class="table-editable">
+      <table mdbTable #tableEl="mdbTable" class="z-depth-1">
+        <thead>
+        <tr>
+          <th class="text-center">Id</th>
+          <th class="text-center">Mis tareas</th>
+          <th class="text-center">Completada</th>
+          <th class="text-center">Borrar</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let tarea of tareaList; let i = index">
+          <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">
+            <span >{{tarea.id}}</span>
+          </td>
+          <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">
+            <span >{{tarea.title}}</span>
+          </td>
+          <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">
+            <mdb-checkbox [checked]="tarea.state" (change)="updateList(tarea,$event)"></mdb-checkbox>
+          </td>
+          <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">
+            <span class="table-remove">
+              <button type="button" mdbBtn color="danger" rounded="true" size="sm" class="my-0" (click)="remove(tarea.id)"><mdb-icon fas icon="trash-alt"></mdb-icon></button>
+            </span>
+          </td>
+        </tr>
+      </tbody>
+        <tfoot class="grey lighten-5 w-100">
+          <tr>
+            <td colspan="4">
+              <mdb-table-pagination [tableEl]="tableEl" [searchDataSource]="tareaList"></mdb-table-pagination>
+            </td>
+          </tr>
+          </tfoot>
+      </table>
+    </div>
+    
+  </div>
+</div>
+<!-- Editable table -->
+</div>
+<!--modal-->
+
+<div mdbModal #frame="mdbModal" class="modal fade right" id="frameModalTop" tabindex="-1" role="dialog"
+  aria-labelledby="myModalLabel" aria-hidden="true" (close)="onClose($event)">
+  <div class="modal-dialog modal-notify modal-danger modal-side modal-top-right" role="document">
+    <!--Content-->
+    <div class="modal-content">
+      <!--Header-->
+      <div class="modal-header">
+        <p class="heading">ERROR</p>
+
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="frame.hide()">
+          <span aria-hidden="true" class="white-text">&times;</span>
+        </button>
+      </div>
+
+      <!--Body-->
+      <div class="modal-body">
+
+        <div class="row">
+          <div class="col-3">
+            <p></p>
+            <p class="text-center">
+              <mdb-icon fas icon="exclamation-triangle" size="4x"></mdb-icon>
+            </p>
+          </div>
+
+          <div class="col-9">
+            <p>{{message}}</p>
+          </div>
+        </div>
+      </div>
+
+      <!--Footer-->
+      <div class="modal-footer justify-content-center">        
+        <a type="button" mdbBtn color="primary" outline="true" class="waves-effect" mdbWavesEffect (click)="frame.hide()"
+          data-dismiss="modal">Cerrar</a>
+      </div>
+    </div>
+    <!--/.Content-->
+  </div>
+</div>
+
+
+<div mdbModal #frames="mdbModal" class="modal fade" id="frameModalTop" tabindex="-1" role="dialog"
+  aria-labelledby="myModalLabel" aria-hidden="true" >
+  <div class="modal-dialog modal-notify modal-success" role="document">
+    <!--Content-->
+    <div class="modal-content">
+      <!--Header-->
+      <div class="modal-header">
+        <p class="heading lead">Correcto</p>
+
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="frames.hide()">
+          <span aria-hidden="true" class="white-text">&times;</span>
+        </button>
+      </div>
+
+      <!--Body-->
+      <div class="modal-body">
+        <div class="text-center">
+          <mdb-icon fas icon="check" size="4x" class="mb-3 animated rotateIn"></mdb-icon>
+          <p>{{message}}</p>
+        </div>
+      </div>
+
+      <!--Footer-->
+      <div class="modal-footer justify-content-center">      
+        <a type="button" mdbBtn color="primary" outline="true" class="waves-effect" mdbWavesEffect (click)="frames.hide()"
+          data-dismiss="modal">Cerrar</a>
+      </div>
+    </div>
+    <!--/.Content-->
+  </div>
+</div>
