@@ -74,8 +74,6 @@ export class AppComponent implements OnInit {
  
 
   remove(id: any) {
-    //this.awaitingPersonList.push(this.personList[id]);
-    console.log(id);
     this.tareaList.splice(id, 1);
     this._game.deleteBase(id).subscribe((res: any) => {
       if (res) {
